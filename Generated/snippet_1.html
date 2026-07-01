@@ -1,0 +1,39 @@
+<!-- yabdelsa2862-lab_Cool-App/public/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cool Weather App</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        input, button { margin: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Welcome to the Cool Weather App</h1>
+    <form id="weather-form">
+        <input type="text" id="city" name="city" placeholder="Enter city name" required>
+        <button type="submit">Get Weather</button>
+    </form>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('weather-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const city = document.getElementById('city').value;
+            const response = await fetch(`/weather?city=${city}`);
+            const data = await response.json();
+            
+            const resultDiv = document.getElementById('result');
+            if (data.error) {
+                resultDiv.innerHTML = `<p>Error: ${data.error}</p>`;
+            } else {
+                resultDiv.innerHTML = `<h2>Weather in ${data.city}</h2>
+                                       <p>Temperature: ${data.temperature} °C</p>
+                                       <p>Condition: ${data.weather}</p>`;
+            }
+        });
+    </script>
+</body>
+</html>
